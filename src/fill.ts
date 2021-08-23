@@ -13,17 +13,20 @@ type Fill<
     : [V, ...Fill<Rest, C, Dec<B>, Dec<E>>]
   : []
 
-type R = Fill<[4, 6, 8, 10, 12, 14, 16], "*", 1, 4>
-
-function fill<
+const fill = <
   T extends readonly unknown[],
   C,
   B extends number = 0,
   E extends number = T["length"],
->(ar: T, c: C, begin?: B, end?: E) {
-  return (ar as unknown as unknown[]).fill(c, begin, end) as Fill<T, C, B, E>
-}
+>(
+  ar: T,
+  c: C,
+  begin?: B,
+  end?: E,
+) => (ar as unknown as unknown[]).fill(c, begin, end) as Fill<T, C, B, E>
 
 const ar = [4, 6, 8, 10, 12, 14, 16] as const
 
 const val = fill(ar, "*" as const, 1, 4)
+
+export { fill }

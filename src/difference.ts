@@ -7,12 +7,10 @@ export type Difference<
     : [V, ...Difference<Rest, R>]
   : []
 
-function difference<T extends readonly unknown[], U extends readonly unknown[]>(
+const difference = <T extends readonly unknown[], U extends readonly unknown[]>(
   a: T,
   b: U,
-) {
-  return a.filter((x) => !b.includes(x)) as Difference<T, U>
-}
+) => a.filter((x) => !b.includes(x)) as Difference<T, U>
 
 const ar1 = [1, 2, 3, 4, 9] as const
 const ar2 = [7, 6, 5, 4, 3] as const

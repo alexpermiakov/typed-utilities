@@ -6,9 +6,10 @@ type DropRight<T extends readonly unknown[], K extends number> = K extends 0
   ? DropRight<Rest, Dec<K>>
   : T
 
-type TD = DropRight<[1, 2, 3, 4, 5, 6, 7], 2>
-
-function dropRight<T extends readonly unknown[], K extends number>(a: T, k: K) {
+const dropRight = <T extends readonly unknown[], K extends number>(
+  a: T,
+  k: K,
+) => {
   if (a.length <= k) return [] as unknown as DropRight<T, K>
   return a.slice(0, a.length - k) as unknown as DropRight<T, K>
 }
@@ -16,3 +17,5 @@ function dropRight<T extends readonly unknown[], K extends number>(a: T, k: K) {
 const ar = [1, 2, 3, 4, 5, 6, 7] as const
 
 const val = dropRight(ar, 2)
+
+export { dropRight }
