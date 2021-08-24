@@ -1,4 +1,4 @@
-import { Falsy } from "./type-utils"
+import { Falsy, TooLong } from "./type-utils"
 
 type Compact<A extends readonly unknown[]> = A extends readonly [
   infer V,
@@ -9,11 +9,11 @@ type Compact<A extends readonly unknown[]> = A extends readonly [
     : [V, ...Compact<Rest>]
   : []
 
+type SaveCompact<T extends readonly unknown[]> = TooLong<T> extends true
+  ? T[number][]
+  : Compact<T>
+
 const compact = <T extends readonly unknown[]>(a: T) =>
-  a.filter((v) => !!v) as Compact<T>
-
-const ar = [0, 1, false, 2, "", 3] as const
-
-const val2 = compact(ar)
+  a.filter((v) => !!v) as SaveCompact<T>
 
 export { compact }

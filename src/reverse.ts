@@ -1,10 +1,17 @@
-type Reverse<T> = T extends readonly [infer Head, ...infer Tail]
+import { TooLong } from "./type-utils"
+
+type Reverse<T extends readonly unknown[]> = T extends readonly [
+  infer Head,
+  ...infer Tail
+]
   ? [...Reverse<Tail>, Head]
   : T
 
-const reverse = <T extends readonly unknown[]>(ar: T) =>
-  [...ar].reverse() as unknown as Reverse<T>
+type SaveReverse<T extends readonly unknown[]> = TooLong<T> extends true
+  ? T[number][]
+  : Reverse<T>
 
-const r = reverse([1, 2, 3] as const)
+const reverse = <T extends readonly unknown[]>(ar: T) =>
+  [...ar].reverse() as SaveReverse<T>
 
 export { reverse }
