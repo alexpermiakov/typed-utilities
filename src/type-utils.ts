@@ -1,24 +1,35 @@
 export type Count<T, S extends number[] = []> = T extends S["length"]
   ? S
-  : Count<T, [...S, 0]>
+  : Count<T, [...S, S["length"]]>
 
 export type Dec<T> = Count<T> extends [unknown, ...infer Tail]
   ? Tail["length"]
   : 0
 
-export type Inc<T> = [...Count<T>, 0]["length"]
-
 export type Falsy = null | 0 | undefined | false | ""
 
-export type TooLong<T extends readonly unknown[], D = 15> = T extends readonly [
-  unknown,
-  ...infer R
-]
-  ? D extends 1
-    ? true
-    : TooLong<R, Dec<D>>
-  : false
+type StackDepth = 40
 
-export type TupleToUnion<T extends unknown[]> = T[number]
+type Indexes = Count<StackDepth>[number]
 
-// export type UnionToTuple<T, P = T, K extends unknown[] = []> = P1
+export type TooLong<T extends readonly unknown[]> = T["length"] extends Indexes
+  ? false
+  : true
+
+export type TupleToUnion<T extends readonly unknown[]> = T[number]
+
+type UnionToIntersection<U> = (
+  U extends unknown ? (arg: U) => void : never
+) extends (arg: infer I) => void
+  ? I
+  : never
+
+type LastInUnion<U> = UnionToIntersection<
+  U extends unknown ? (x: U) => void : never
+> extends (x: infer L) => void
+  ? L
+  : never
+
+export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
+  ? []
+  : [...UnionToTuple<Exclude<U, Last>>, Last]

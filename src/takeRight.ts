@@ -13,6 +13,4 @@ const takeRight = <T extends readonly unknown[], K extends number = 1>(
   k: K,
 ) => a.slice(0, k) as TakeRight<T, K>
 
-const tr = takeRight([1, 2, 3, 4, 5, 6] as const, 4)
-
 export { takeRight }

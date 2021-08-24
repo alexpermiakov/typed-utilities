@@ -7,6 +7,4 @@ type Tail<T extends readonly unknown[]> = T extends readonly [
 
 const tail = <T extends readonly unknown[]>(ar: T) => ar.slice(1) as Tail<T>
 
-const t = tail([1, 2, 3] as const)
-
 export { tail }

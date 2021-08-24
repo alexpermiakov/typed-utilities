@@ -25,8 +25,10 @@ const fill = <
   end?: E,
 ) => (ar as unknown as unknown[]).fill(c, begin, end) as Fill<T, C, B, E>
 
-const ar = [4, 6, 8, 10, 12, 14, 16] as const
+const ar = [
+  4, 6, 8, 10, 12, 14, 16, 4, 6, 8, 10, 12, 14, 16, 4, 6, 8, 10, 12, 14, 16, 4,
+  6, 8, 10, 12, 14, 16, 4, 6, 8, 10, 12, 14, 164, 6, 8, 10, 12, 14, 16,
+] as const
 
-const val = fill(ar, "*" as const, 1, 4)
-
+const val = fill(ar, "*" as const, 1, 11)
 export { fill }

@@ -1,11 +1,11 @@
 import { TooLong } from "./type-utils"
 
-type Reverse<T extends readonly unknown[]> = T extends readonly [
-  infer Head,
-  ...infer Tail
-]
-  ? [...Reverse<Tail>, Head]
-  : T
+type Reverse<
+  T extends readonly unknown[],
+  R extends readonly unknown[] = [],
+> = T extends readonly [infer Head, ...infer Tail]
+  ? Reverse<Tail, [Head, ...R]>
+  : R
 
 type SaveReverse<T extends readonly unknown[]> = TooLong<T> extends true
   ? T[number][]
