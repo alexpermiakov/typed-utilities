@@ -1,13 +1,9 @@
+import { List } from "../type-utils"
 import { Uniq } from "./uniq"
 
-export type Union<
-  L extends readonly unknown[],
-  R extends readonly unknown[],
-> = Uniq<[...L, ...R]>
+export type Union<L extends List, R extends List> = Uniq<[...L, ...R]>
 
-const union = <T extends readonly unknown[], U extends readonly unknown[]>(
-  a: T,
-  b: U,
-) => [...new Set([...a, ...b])] as Union<T, U>
+const union = <T extends List, U extends List>(a: T, b: U) =>
+  [...new Set([...a, ...b])] as Union<T, U>
 
 export { union }

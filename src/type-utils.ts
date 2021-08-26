@@ -8,17 +8,18 @@ export type Dec<T> = Count<T> extends [unknown, ...infer Tail]
 
 export type Falsy = null | 0 | undefined | false | ""
 
+export type List<A = unknown> = ReadonlyArray<A>
+
 type Indexes = Count<40>[number]
 type Indexes20 = Count<20>[number]
 
-export type TooLong<T extends readonly unknown[]> = T["length"] extends Indexes
+export type TooLong<T extends List> = T["length"] extends Indexes ? false : true
+
+export type TooLong20<T extends List> = T["length"] extends Indexes20
   ? false
   : true
 
-export type TooLong20<T extends readonly unknown[]> =
-  T["length"] extends Indexes20 ? false : true
-
-export type TupleToUnion<T extends readonly unknown[]> = T[number]
+export type TupleToUnion<T extends List> = T[number]
 
 type UnionToIntersection<U> = (
   U extends unknown ? (arg: U) => void : never
@@ -99,8 +100,6 @@ export type NestedArrayToUnion<Arr, D extends number = 20> = {
     ? NestedArrayToUnion<InnerArr, StackDepth[D]>
     : Arr
 }[D extends -1 ? "done" : "recur"]
-
-export type List<A = unknown> = ReadonlyArray<A>
 
 export type Extends<A1 extends unknown, A2 extends unknown> = [A1] extends [
   never,

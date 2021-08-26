@@ -4,6 +4,6 @@ export type Tail<T extends List> = T extends readonly [unknown?, ...infer Rest]
   ? Rest
   : T
 
-const tail = <T extends readonly unknown[]>(ar: T) => ar.slice(1) as Tail<T>
+const tail = <T extends List>(ar: T) => ar.slice(1) as Tail<T>
 
 export { tail }

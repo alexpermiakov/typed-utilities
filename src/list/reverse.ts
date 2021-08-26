@@ -7,11 +7,10 @@ type Reverse<L extends List, R extends unknown[] = []> = {
   done: R
 }[L["length"] extends 0 ? "done" : "recur"]
 
-type SafeReverse<T extends readonly unknown[]> = TooLong<T> extends true
+type SafeReverse<T extends List> = TooLong<T> extends true
   ? T[number][]
   : Reverse<T>
 
-const reverse = <T extends readonly unknown[]>(ar: T) =>
-  [...ar].reverse() as SafeReverse<T>
+const reverse = <T extends List>(ar: T) => [...ar].reverse() as SafeReverse<T>
 
 export { reverse }

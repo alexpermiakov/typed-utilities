@@ -6,12 +6,11 @@ type Drop<L extends List, K extends number = 1> = {
   done: L
 }[K extends 0 ? "done" : "recur"]
 
-type SafeDrop<
-  L extends readonly unknown[],
-  K extends number = 1,
-> = TooLong<L> extends false ? Drop<L, K> : L[]
+type SafeDrop<L extends List, K extends number = 1> = TooLong<L> extends false
+  ? Drop<L, K>
+  : L[]
 
-const drop = <T extends readonly unknown[], K extends number>(a: T, k: K) => {
+const drop = <T extends List, K extends number>(a: T, k: K) => {
   if (a.length <= k) return [] as unknown as SafeDrop<T, K>
   return a.slice(k) as unknown as SafeDrop<T, K>
 }

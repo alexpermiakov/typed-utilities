@@ -1,23 +1,22 @@
-import { TooLong } from "../type-utils"
+import { TooLong, List } from "../type-utils"
+import { Last } from "./last"
+import { Init } from "./init"
 
-type TakeRight<
-  T extends readonly unknown[],
+export type TakeRight<
+  L extends List,
   K extends number = 1,
   R extends unknown[] = [],
-> = K extends R["length"]
-  ? R
-  : T extends readonly [...infer Rest, infer V]
-  ? TakeRight<Rest, K, [V, ...R]>
-  : R
+> = {
+  recur: TakeRight<Init<L>, K, [Last<L>, ...R]>
+  done: R
+}[K extends R["length"] ? "done" : "recur"]
 
 type SafeTakeRight<
-  T extends readonly unknown[],
+  T extends List,
   K extends number = 1,
 > = TooLong<T> extends true ? T[number][] : TakeRight<T, K>
 
-const takeRight = <T extends readonly unknown[], K extends number = 1>(
-  a: T,
-  k: K,
-) => a.slice(0, k) as SafeTakeRight<T, K>
+const takeRight = <T extends List, K extends number = 1>(a: T, k: K) =>
+  a.slice(0, k) as SafeTakeRight<T, K>
 
 export { takeRight }

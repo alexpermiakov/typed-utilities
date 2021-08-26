@@ -1,8 +1,8 @@
-import { TooLong20 } from "../type-utils"
+import { TooLong20, List } from "../type-utils"
 
 export type Intersection<
-  T extends readonly unknown[],
-  U extends readonly unknown[],
+  T extends List,
+  U extends List,
   R extends unknown[] = [],
 > = T extends readonly [infer V, ...infer Rest]
   ? V extends U[number]
@@ -11,16 +11,11 @@ export type Intersection<
   : R
 
 type SafeIntersection<
-  T extends readonly unknown[],
-  U extends readonly unknown[],
+  T extends List,
+  U extends List,
 > = TooLong20<T> extends true ? (T[number] | U[number])[] : Intersection<T, U>
 
-const intersection = <
-  T extends readonly unknown[],
-  U extends readonly unknown[],
->(
-  a: T,
-  b: U,
-) => a.filter((x) => b.includes(x)) as SafeIntersection<T, U>
+const intersection = <T extends List, U extends List>(a: T, b: U) =>
+  a.filter((x) => b.includes(x)) as SafeIntersection<T, U>
 
 export { intersection }
