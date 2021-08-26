@@ -1,4 +1,4 @@
-import { TooLong } from "./type-utils"
+import { TooLong } from "../type-utils"
 
 export type Difference<
   L extends readonly unknown[],
@@ -10,7 +10,7 @@ export type Difference<
     : Difference<Rest, R, [...D, V]>
   : D
 
-type SaveDifference<
+type SafeDifference<
   L extends readonly unknown[],
   R extends readonly unknown[],
 > = TooLong<[...L, ...R]> extends false
@@ -20,6 +20,6 @@ type SaveDifference<
 const difference = <T extends readonly unknown[], U extends readonly unknown[]>(
   a: T,
   b: U,
-) => a.filter((x) => !b.includes(x)) as SaveDifference<T, U>
+) => a.filter((x) => !b.includes(x)) as SafeDifference<T, U>
 
 export { difference }

@@ -1,4 +1,4 @@
-import { TupleToUnion, UnionToTuple } from "./type-utils"
+import { TupleToUnion, UnionToTuple } from "../type-utils"
 
 export type Uniq<T extends readonly unknown[]> = UnionToTuple<TupleToUnion<T>>
 

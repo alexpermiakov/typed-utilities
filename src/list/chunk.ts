@@ -37,7 +37,7 @@ export type TooLong<T extends readonly unknown[], D = 15> = T extends readonly [
     : TooLong<R, Dec<D>>
   : false
 
-type SaveChunk<
+type SafeChunk<
   T extends readonly unknown[],
   K extends number,
 > = TooLong<T> extends true ? [T[number][]] : Chunk<T, K>
@@ -50,7 +50,8 @@ const chunk = <T extends readonly unknown[], K extends number>(a: T, k: K) => {
     let chunk = a.slice(i, i + k)
     res.push(chunk)
   }
-  return res as SaveChunk<T, K>
+  return res as SafeChunk<T, K>
 }
+
 
 export { chunk }

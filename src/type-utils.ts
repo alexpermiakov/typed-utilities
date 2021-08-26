@@ -8,13 +8,15 @@ export type Dec<T> = Count<T> extends [unknown, ...infer Tail]
 
 export type Falsy = null | 0 | undefined | false | ""
 
-type StackDepth = 40
-
-type Indexes = Count<StackDepth>[number]
+type Indexes = Count<40>[number]
+type Indexes20 = Count<20>[number]
 
 export type TooLong<T extends readonly unknown[]> = T["length"] extends Indexes
   ? false
   : true
+
+export type TooLong20<T extends readonly unknown[]> =
+  T["length"] extends Indexes20 ? false : true
 
 export type TupleToUnion<T extends readonly unknown[]> = T[number]
 
@@ -33,3 +35,77 @@ type LastInUnion<U> = UnionToIntersection<
 export type UnionToTuple<U, Last = LastInUnion<U>> = [U] extends [never]
   ? []
   : [...UnionToTuple<Exclude<U, Last>>, Last]
+
+export type StackDepth = [
+  -1,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  33,
+  34,
+  35,
+  36,
+  37,
+  38,
+  39,
+  40,
+  41,
+  42,
+  43,
+  44,
+  45,
+  46,
+  47,
+  48,
+  49,
+  50,
+]
+
+export type Prev<I extends number> = StackDepth[I]
+
+export type NestedArrayToUnion<Arr, D extends number = 20> = {
+  done: Arr
+  recur: Arr extends ReadonlyArray<infer InnerArr>
+    ? NestedArrayToUnion<InnerArr, StackDepth[D]>
+    : Arr
+}[D extends -1 ? "done" : "recur"]
+
+export type List<A = unknown> = ReadonlyArray<A>
+
+export type Extends<A1 extends unknown, A2 extends unknown> = [A1] extends [
+  never,
+]
+  ? 0
+  : A1 extends A2
+  ? 1
+  : 0
