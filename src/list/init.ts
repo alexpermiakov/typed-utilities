@@ -1,9 +1,9 @@
 import { List } from "../type-utils"
 
-export type Init<T extends List> = T extends readonly [...infer V, unknown]
+export type Init<L extends List> = L extends readonly [...infer V, unknown]
   ? V
   : never
 
-const init = <T extends List>(a: T) => a.slice(0, -1) as Init<T>
+const init = <L extends List>(a: L) => a.slice(0, -1) as Init<L>
 
 export { init }
