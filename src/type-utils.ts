@@ -108,3 +108,21 @@ export type Extends<A1 extends unknown, A2 extends unknown> = [A1] extends [
   : A1 extends A2
   ? 1
   : 0
+
+type BuildTupleWithChar<
+  L extends number,
+  C extends unknown = "*",
+  T extends unknown[] = [],
+> = T["length"] extends L ? T : BuildTupleWithChar<L, C, [...T, C]>
+
+export type Subtract<
+  A extends number,
+  B extends number,
+> = BuildTupleWithChar<A> extends [...infer U, ...BuildTupleWithChar<B>]
+  ? U["length"]
+  : never
+
+export type Repeat<K extends number, C extends unknown> = BuildTupleWithChar<
+  K,
+  C
+>

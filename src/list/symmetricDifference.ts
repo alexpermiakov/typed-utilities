@@ -1,10 +1,14 @@
 import { TooLong, List } from "../type-utils"
 import { Difference } from "./difference"
 
-type SymmetricDifference<L extends List, R extends List> = [
-  ...Difference<L, R>,
-  ...Difference<R, L>
-]
+type SymmetricDifference<L extends List, R extends List> = Difference<
+  L,
+  R
+> extends [...infer V1]
+  ? Difference<R, L> extends [...infer V2]
+    ? [...V1, ...V2]
+    : []
+  : []
 
 type SafeSymmetricDifference<L extends List, R extends List> = TooLong<
   [...L, ...R]

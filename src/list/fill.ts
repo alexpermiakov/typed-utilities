@@ -1,21 +1,6 @@
-import { List } from "../type-utils"
+import { List, Subtract, Repeat } from "../type-utils"
 import { Take } from "./take"
 import { TakeRight } from "./takeRight"
-
-type Repeat<K extends number, C extends unknown> = BuildTupleWithChar<K, C>
-
-type BuildTupleWithChar<
-  L extends number,
-  C extends unknown = "*",
-  T extends unknown[] = [],
-> = T["length"] extends L ? T : BuildTupleWithChar<L, C, [...T, C]>
-
-type Subtract<
-  A extends number,
-  B extends number,
-> = BuildTupleWithChar<A> extends [...infer U, ...BuildTupleWithChar<B>]
-  ? U["length"]
-  : never
 
 type Fill<
   L extends List,

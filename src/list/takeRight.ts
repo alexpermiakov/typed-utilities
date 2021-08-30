@@ -9,7 +9,7 @@ export type TakeRight<
 > = {
   recur: TakeRight<Init<L>, K, [Last<L>, ...R]>
   done: R
-}[K extends R["length"] ? "done" : "recur"]
+}[L["length"] extends 0 ? "done" : K extends R["length"] ? "done" : "recur"]
 
 type SafeTakeRight<
   T extends List,

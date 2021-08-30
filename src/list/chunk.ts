@@ -1,11 +1,20 @@
 import { List, TooLong } from "../type-utils"
-import { Take } from "./take"
+
+export type Take<
+  T extends readonly unknown[],
+  K extends number = 1,
+  R extends unknown[] = [],
+> = K extends R["length"]
+  ? R
+  : T extends readonly [infer V, ...infer Rest]
+  ? Take<Rest, K, [...R, V]>
+  : R
 
 type Chunk<
-  L extends List,
+  T extends readonly unknown[],
   K extends number,
-  P extends unknown[] = Take<L, K>,
-> = L extends readonly [...P, ...infer R]
+  P extends unknown[] = Take<T, K>,
+> = T extends readonly [...P, ...infer R]
   ? P extends []
     ? []
     : [P, ...Chunk<R, K>]

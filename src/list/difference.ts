@@ -1,14 +1,15 @@
 import { TooLong, List } from "../type-utils"
+import { Head } from "./head"
+import { Tail } from "./tail"
 
 export type Difference<
   L extends List,
   R extends List,
   D extends unknown[] = [],
-> = L extends readonly [infer V, ...infer Rest]
-  ? V extends R[number]
-    ? Difference<Rest, R, D>
-    : Difference<Rest, R, [...D, V]>
-  : D
+> = {
+  recur: Difference<Tail<L>, R, Head<L> extends R[number] ? D : [...D, Head<L>]>
+  done: D
+}[L["length"] extends 0 ? "done" : "recur"]
 
 type SafeDifference<L extends List, R extends List> = TooLong<
   [...L, ...R]

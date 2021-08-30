@@ -1,15 +1,15 @@
-import { Dec, TooLong, List } from "../type-utils"
+import { Prev, TooLong, List } from "../type-utils"
+import { Init } from "./init"
 
-type DropRight<T extends List, K extends number> = K extends 0
-  ? T
-  : T extends readonly [...infer Rest, unknown]
-  ? DropRight<Rest, Dec<K>>
-  : T
+type DropRight<L extends List, K extends number = 1> = {
+  recur: DropRight<Init<L>, Prev<K>>
+  done: L
+}[K extends 0 ? "done" : "recur"]
 
 type SafeDropRight<
-  T extends List,
+  L extends List,
   K extends number = 1,
-> = TooLong<T> extends false ? DropRight<T, K> : T[]
+> = TooLong<L> extends false ? DropRight<L, K> : L[number][]
 
 const dropRight = <T extends List, K extends number>(a: T, k: K) => {
   if (a.length <= k) return [] as unknown as SafeDropRight<T, K>

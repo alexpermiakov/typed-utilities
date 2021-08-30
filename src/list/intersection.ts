@@ -1,14 +1,16 @@
 import { TooLong20, List } from "../type-utils"
+import { Head } from "./head"
+import { Tail } from "./tail"
 
 export type Intersection<
-  T extends List,
+  L extends List,
   U extends List,
   R extends unknown[] = [],
-> = T extends readonly [infer V, ...infer Rest]
-  ? V extends U[number]
-    ? Intersection<Rest, U, [...R, V]>
-    : Intersection<Rest, U, R>
-  : R
+  H = Head<L>,
+> = {
+  recur: Intersection<Tail<L>, U, H extends U[number] ? [...R, H] : R>
+  done: R
+}[L["length"] extends 0 ? "done" : "recur"]
 
 type SafeIntersection<
   T extends List,
